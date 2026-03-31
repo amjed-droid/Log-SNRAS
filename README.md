@@ -13,7 +13,19 @@ This metric effectively penalizes instrumental artifacts and non-stationary nois
 - **Variance-Aware:** Penalizes signals with high local instability (heteroscedasticity).
 - **Computationally Efficient:** Linear time complexity $\mathcal{O}(N)$, suitable for large-scale surveys.
 - **Interpretable:** Provides a clear diagnostic score without "black-box" inference.
-- **Robust:** Tested on 151 adversarial light curves, achieving an AUC of 0.725 against complex astrophysical noise.
+- **Robust:** Tested on 151 adversarial light curves, achieving the highest AUC against complex astrophysical noise.
+
+## Data Preparation
+Light curves evaluated in this study were downloaded from the Mikulski Archive for Space Telescopes (MAST). The analysis specifically utilizes the Pre-search Data Conditioning Simple Aperture Photometry (PDCSAP) flux column. Pre-processing steps included standard quality-bit filtering to remove bad cadences and outlier clipping to prepare the light curves for robust statistical evaluation.
+
+## Reproducibility & Figure Generation
+This repository contains all necessary scripts and data to fully reproduce the results presented in the manuscript.
+- **Figure & Table Generation:** Scripts are provided to regenerate every figure in the paper (including the 3D response surface in Figure 1 and all ROC curves) as well as the summary tables.
+- **Environment:** The code was developed and tested using MATLAB R2020b.
+- **Bootstrap Analysis:** The random seed used for the stratified bootstrap resampling ($B=2000$) is explicitly set within the scripts to guarantee exact reproduction of the reported $p$-values and confidence intervals.
+
+## Supplementary Material
+The complete 151-target evaluation catalog used for benchmarking (Table C.4 in the manuscript's supplementary material) is included in this repository to ensure full transparency and allow for future comparative studies.
 
 ## Usage
 The core function `calculate_log_snras.m` is standalone.
