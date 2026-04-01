@@ -28,11 +28,12 @@ Light curves evaluated in the empirical benchmark were downloaded from the Mikul
 
 ## Figure Generation & Scripts
 The following scripts are provided to automatically regenerate the manuscript's core results:
-* `generate_roc_analysis.m`: Executes a stratified bootstrap ($B=2000$) on the 151-target adversarial dataset. It outputs the exact **Mean AUC** and **95% CIs** shown in **Table 1**, and generates the high-resolution empirical ROC curve shown in **Figure 2**.
-* `plot_3d_surface.m`: *(Include if you have this)* Regenerates the 3D response surface shown in **Figure 1**, mapping the penalty behavior across various noise regimes.
+* `reproducibility_auc_bootstrap.m`: Executes a stratified bootstrap ($B=2000$) on the 151-target adversarial dataset. It outputs the exact **Mean AUC** and **95% CIs** shown in **Table 1**, and generates the high-resolution empirical ROC curve shown in **Figure 2**.
+* `generate_table2_stats.m`: Dynamically parses the raw TESS/Kepler FITS files to compute the exact class balance, median dispersion contrast ($\psi$), and median penalty values presented in **Table 2**.
+* `plot_3d_surface.m`: Regenerates the 3D response surface shown in **Figure 1**, mapping the theoretical penalty behavior across various noise regimes.
 
 ## Supplementary Material & Data Notes
-The complete 151-target evaluation catalog used for benchmarking is included (`Final_Empirical_Benchmark.csv` / `Supplementary_Table_C4.csv`).
+The complete 151-target evaluation catalog used for benchmarking is included as `Supplementary_Table_C4.csv`.
 > **Note on NaNs:** Any `NaN` values present in the supplementary tables correspond to light curve segments with an insufficient number of in-transit points ($N_{in} < 10$), which were excluded from the final statistical evaluation to prevent undefined penalty behavior.
 
 ## Usage
