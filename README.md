@@ -21,7 +21,7 @@ Light curves evaluated in this study were downloaded from the Mikulski Archive f
 ## Reproducibility & Figure Generation
 This repository contains all necessary scripts and data to fully reproduce the results presented in the manuscript.
 - **Figure & Table Generation:** Scripts are provided to regenerate every figure in the paper (including the 3D response surface in Figure 1 and all ROC curves) as well as the summary tables.
-- **Environment:** The code was developed and tested using MATLAB R2020b.
+- **Environment:** The code was developed and tested using MATLAB R2025b.
 - **Bootstrap Analysis:** The random seed used for the stratified bootstrap resampling ($B=2000$) is explicitly set within the scripts to guarantee exact reproduction of the reported $p$-values and confidence intervals.
 
 ## Supplementary Material
