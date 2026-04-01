@@ -2,39 +2,47 @@
 **A Computationally Efficient Variance-Stabilized Metric for Vetting Heteroscedastic Light Curves**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Language](https://img.shields.io/badge/MATLAB-R2020b%2B-blue.svg)](https://www.mathworks.com/products/matlab.html)
+[![Language](https://img.shields.io/badge/MATLAB-R2023b%2B-blue.svg)](https://www.mathworks.com/products/matlab.html)
+[![Release](https://img.shields.io/badge/Release-v1.1--revised-success.svg)](#)
 
 ## Overview
-**Log-SNRAS** (Logarithmic Signal-to-Noise Ratio with Adjusted Statistics) is a novel statistical metric designed to automate the vetting of exoplanet candidates in space-based photometry (e.g., *Kepler*, *TESS*). Unlike traditional SNR, which assumes homoscedastic (uniform) noise, Log-SNRAS introduces a logarithmic penalty term based on the **dispersion contrast ($\psi$)** between in-transit and out-of-transit flux.
+**Log-SNRAS** (Logarithmic Signal-to-Noise Ratio with Adjusted Statistics) is a computationally efficient **post-detection vetting filter** designed to automate the evaluation of exoplanet candidates in space-based photometry (e.g., *Kepler*, *TESS*). 
 
-This metric effectively penalizes instrumental artifacts and non-stationary noise events that mimic planetary signals, offering a robust $\mathcal{O}(N)$ alternative to computationally expensive deep learning models.
+Unlike traditional search algorithms (like BLS or TPS) or standard SNR metrics which assume homoscedastic (uniform) noise, Log-SNRAS operates *after* detection. It introduces a physically motivated logarithmic penalty term based on the **dispersion contrast ($\psi$)** between in-transit and out-of-transit flux. This allows it to penalize instrumental artifacts and non-stationary noise events (heteroscedasticity) that often mimic planetary signals.
 
-## Key Features
-- **Variance-Aware:** Penalizes signals with high local instability (heteroscedasticity).
-- **Computationally Efficient:** Linear time complexity $\mathcal{O}(N)$, suitable for large-scale surveys.
-- **Interpretable:** Provides a clear diagnostic score without "black-box" inference.
-- **Robust:** Tested on 151 adversarial light curves, achieving the highest AUC against complex astrophysical noise.
+**Formula:**
+$$\text{Log-SNRAS} = \frac{\delta}{\sigma_{out}} \times \frac{\sqrt{N_{in}}}{1 + \ln(1 + \psi)}$$
 
-## Data Preparation
-Light curves evaluated in this study were downloaded from the Mikulski Archive for Space Telescopes (MAST). The analysis specifically utilizes the Pre-search Data Conditioning Simple Aperture Photometry (PDCSAP) flux column. Pre-processing steps included standard quality-bit filtering to remove bad cadences and outlier clipping to prepare the light curves for robust statistical evaluation.
+## Reproducibility Statement
+A major strength of this work is its complete reproducibility. This repository contains all necessary scripts, exact random seeds, and data to fully reproduce the results, tables, and figures presented in the revised manuscript.
 
-## Reproducibility & Figure Generation
-This repository contains all necessary scripts and data to fully reproduce the results presented in the manuscript.
-- **Figure & Table Generation:** Scripts are provided to regenerate every figure in the paper (including the 3D response surface in Figure 1 and all ROC curves) as well as the summary tables.
-- **Environment:** The code was developed and tested using MATLAB R2025b.
-- **Bootstrap Analysis:** The random seed used for the stratified bootstrap resampling ($B=2000$) is explicitly set within the scripts to guarantee exact reproduction of the reported $p$-values and confidence intervals.
+* **Environment:** Developed and tested using **MATLAB R2023b** (and R2025b). 
+* **Required Toolboxes:** `Statistics and Machine Learning Toolbox`.
+* **Random Seed:** A fixed seed (`rng(42)`) is explicitly set in the scripts for the stratified bootstrap resampling ($B=2000$) to guarantee the exact reproduction of the reported $p$-values and 95% Confidence Intervals (CIs).
+* **Release Tag:** The results in the manuscript correspond to the `v1.1-revised` tag of this repository.
 
-## Supplementary Material
-The complete 151-target evaluation catalog used for benchmarking (Table C.4 in the manuscript's supplementary material) is included in this repository to ensure full transparency and allow for future comparative studies.
+## Data Preparation & Pre-processing
+Light curves evaluated in the empirical benchmark were downloaded from the Mikulski Archive for Space Telescopes (MAST). 
+* **Flux Selection:** The analysis specifically utilizes the Pre-search Data Conditioning Simple Aperture Photometry (PDCSAP) flux column.
+* **Pre-processing:** Steps included standard quality-bit filtering to remove bad cadences, outlier clipping, and precise windowing. The in-transit window is defined as the interval $\pm T_{dur}/2$ centered on the BLS mid-transit time, while the out-of-transit window utilizes the remaining points after removing a $2 \times T_{dur}$ buffer on each side.
+
+## Figure Generation & Scripts
+The following scripts are provided to automatically regenerate the manuscript's core results:
+* `generate_roc_analysis.m`: Executes a stratified bootstrap ($B=2000$) on the 151-target adversarial dataset. It outputs the exact **Mean AUC** and **95% CIs** shown in **Table 1**, and generates the high-resolution empirical ROC curve shown in **Figure 2**.
+* `plot_3d_surface.m`: *(Include if you have this)* Regenerates the 3D response surface shown in **Figure 1**, mapping the penalty behavior across various noise regimes.
+
+## Supplementary Material & Data Notes
+The complete 151-target evaluation catalog used for benchmarking is included (`Final_Empirical_Benchmark.csv` / `Supplementary_Table_C4.csv`).
+> **Note on NaNs:** Any `NaN` values present in the supplementary tables correspond to light curve segments with an insufficient number of in-transit points ($N_{in} < 10$), which were excluded from the final statistical evaluation to prevent undefined penalty behavior.
 
 ## Usage
-The core function `calculate_log_snras.m` is standalone.
+The core function `calculate_log_snras.m` is standalone and operates in $\mathcal{O}(N)$ linear time.
 
 ```matlab
 % Example Usage:
-flux = ...; % Your normalized light curve
+flux = ...; % Your normalized light curve array
 mask = ...; % Boolean vector (True = In-Transit)
-snr_trad = ...; % Traditional SNR value
+snr_trad = ...; % Traditional SNR value computed by your pipeline
 
 [score, penalty, psi] = calculate_log_snras(flux, snr_trad, mask);
 
