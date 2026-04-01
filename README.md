@@ -16,7 +16,7 @@ $$\text{Log-SNRAS} = \frac{\delta}{\sigma_{out}} \times \frac{\sqrt{N_{in}}}{1 +
 ## Reproducibility Statement
 A major strength of this work is its complete reproducibility. This repository contains all necessary scripts, exact random seeds, and data to fully reproduce the results, tables, and figures presented in the revised manuscript.
 
-* **Environment:** Developed and tested using **MATLAB R2023b** (and R2025b). 
+* **Environment:** Developed and tested using **MATLAB R2025b**. 
 * **Required Toolboxes:** `Statistics and Machine Learning Toolbox`.
 * **Random Seed:** A fixed seed (`rng(42)`) is explicitly set in the scripts for the stratified bootstrap resampling ($B=2000$) to guarantee the exact reproduction of the reported $p$-values and 95% Confidence Intervals (CIs).
 * **Release Tag:** The results in the manuscript correspond to the `v1.1-revised` tag of this repository.
