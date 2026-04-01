@@ -2,7 +2,7 @@
 **A Computationally Efficient Variance-Stabilized Metric for Vetting Heteroscedastic Light Curves**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Language](https://img.shields.io/badge/MATLAB-R2023b%2B-blue.svg)](https://www.mathworks.com/products/matlab.html)
+[![Language](https://img.shields.io/badge/MATLAB-R2025b%2B-blue.svg)](https://www.mathworks.com/products/matlab.html)
 [![Release](https://img.shields.io/badge/Release-v1.1--revised-success.svg)](#)
 
 ## Overview
